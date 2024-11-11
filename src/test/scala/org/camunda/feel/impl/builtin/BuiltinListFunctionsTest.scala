@@ -570,4 +570,17 @@ class BuiltinListFunctionsTest
     evaluateExpression(" is empty([1,2,3]) ") should returnResult(false)
     evaluateExpression(" is empty(list: [1]) ") should returnResult(false)
   }
+
+  "A partition() function" should "return list partitioned by _" in {
+    evaluateExpression(" partition([1,2,3,4,5], 2) ") should returnResult(
+      List(List(1, 2), List(3, 4), List(5))
+    )
+    evaluateExpression(" partition([], 2) ") should returnResult(List())
+    evaluateExpression(" partition([1], 2) ") should returnResult(List(List(1)))
+  }
+
+  it should "return null if the size is invalid" in {
+    evaluateExpression(" partition([1,2], 0) ") should returnNull()
+    evaluateExpression(" partition([1,2], -1) ") should returnNull()
+  }
 }
